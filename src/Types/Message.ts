@@ -61,6 +61,16 @@ type ViewOnce = {
     viewOnce?: boolean
 }
 
+type ViewOnceV2 = {
+     viewOnceV2?: boolean;
+}
+type ViewOnceV2Extension = {
+     viewOnceV2Extension?: boolean;
+}
+type Ephemeral = {
+      ephemeral?: boolean;
+}
+
 type Buttonable = {
     /** add buttons to the message  */
     buttons?: proto.Message.ButtonsMessage.IButton[]
@@ -144,6 +154,35 @@ export type ButtonReplyInfo = {
     index: number
 }
 
+export type PinInChatInfo = {
+    key: WAMessageKey;
+    type?: number;
+    time?: number;
+}
+
+export type CallCreationInfo = {
+    time?: number;
+    type?: number;
+    title: string;
+}
+
+export type EventsInfo = {
+    isCanceled?: boolean;
+    name: string;
+    description: string;
+    joinLink?: string;
+    startTime?: number;
+    messageSecret?: Uint8Array
+}
+
+export type AdminInviteInfo = {
+    newsletterJid: string;
+    newsletterName: string;
+    caption: string;
+    inviteExpiration: number;
+    jpegThumbnail: Buffer;
+}
+
 export type WASendableProduct = Omit<proto.Message.ProductMessage.IProductSnapshot, 'productImage'> & {
     productImage: WAMediaUpload
 }
@@ -171,6 +210,21 @@ export type AnyRegularMessageContent = (
     | {
         buttonReply: ButtonReplyInfo
         type: 'template' | 'plain'
+    }
+    | {
+     groupInvite: GroupInviteInfo
+    }
+    | {
+     pin: PinInChatInfo
+    }
+    | {
+     call: CallCreationInfo
+    }
+    | {
+     event: EventsInfo
+    } 
+    | {
+     inviteAdmin: AdminInviteInfo
     }
     | {
         listReply: Omit<proto.Message.IListResponseMessage, 'contextInfo'>
