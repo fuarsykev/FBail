@@ -399,6 +399,29 @@ export const generateWAMessageContent = async(
 			(message.disappearingMessagesInChat ? WA_DEFAULT_EPHEMERAL : 0) :
 			message.disappearingMessagesInChat
 		m = prepareDisappearingMessageSettingContent(exp)
+    } else if('groupInvite' in message) {
+	    m.groupInviteMessage = WAProto.Message.GroupInviteMessage.fromObject(message.groupInvite)
+    } else if('pin' in message) {
+        m.messageContextInfo = {
+        	messageAddOnDurationInSecs: message.pin.type === 1 ? message.pin.time : WA_DEFAULT_EPHEMERAL
+        }
+        m.pinInChatMessage = {
+            key: message.pin.key, 
+            type: message.pin.type ?? 1,
+            senderTimestampMs: Date.now()
+         }
+	} else if('call' in message) {
+          m = { 
+             viewOnceMessage: {
+                message: {
+                   scheduledCallCreationMessage: {
+        	          scheduledTimestampMs: message.call.time ? message.call.time : Date.now(), 
+                      callType: message.call.type ?? 1, 
+                      title: message.call.title
+                   } 
+                }
+             }
+          }
 	} else if('buttonReply' in message) {
 		switch (message.type) {
 		case 'template':
@@ -457,7 +480,14 @@ export const generateWAMessageContent = async(
 			selectableOptionsCount: message.poll.selectableCount,
 			options: message.poll.values.map(optionName => ({ optionName })),
 		}
-	} else if('sharePhoneNumber' in message) {
+	} else if('event' in message) {
+      m.messageContextInfo = {
+         messageSecret: message.event.messageSecret || randomBytes(32), 
+      }
+      m.eventMessage = { ...message.event }
+   } else if('inviteAdmin' in message) {
+       m.newsletterAdminInviteMessage = WAProto.Message.NewsletterAdminInviteMessage.fromObject(message.inviteAdmin)
+   } else if('sharePhoneNumber' in message) {
 		m.protocolMessage = {
 			type: proto.Message.ProtocolMessage.Type.SHARE_PHONE_NUMBER
 		}
@@ -537,6 +567,22 @@ export const generateWAMessageContent = async(
 	if('viewOnce' in message && !!message.viewOnce) {
 		m = { viewOnceMessage: { message: m } }
 	}
+	
+    if('viewOnceV2' in message && !!message.viewOnceV2) {
+        m = { viewOnceMessageV2: { message: m } };
+    }
+    
+    if('viewOnceV2Extension' in message && !!message.viewOnceV2Extension) {
+        m = { viewOnceMessageV2Extension: { message: m } };
+    }
+    
+    if('ephemeral' in message && !!message.ephemeral) {
+    	m = { ephemeralMessage: { message: m } };
+    }
+    
+    if('lottie' in message && !!message.lottie) {
+    	m = { lottieStickerMessage: { message: m } };
+    }
 
 	if('mentions' in message && message.mentions?.length) {
 		const [messageType] = Object.keys(m)

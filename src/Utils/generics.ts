@@ -8,18 +8,31 @@ import { version as baileysVersion } from '../Defaults/baileys-version.json'
 import { BaileysEventEmitter, BaileysEventMap, DisconnectReason, WACallUpdateType, WAVersion } from '../Types'
 import { BinaryNode, getAllBinaryNodeChildren, jidDecode } from '../WABinary'
 
+const COMPANION_PLATFORM_MAP = {
+  'Chrome': '49',
+  'Edge': '50',
+  'Firefox': '51',
+  'Opera': '53',
+  'Safari': '54'
+}
+
 const PLATFORM_MAP = {
-	'aix': 'AIX',
-	'darwin': 'Mac OS',
-	'win32': 'Windows',
-	'android': 'Android'
+  'aix': 'AIX',
+  'darwin': 'Mac OS',
+  'win32': 'Windows',
+  'android': 'Android',
+  'freebsd': 'FreeBSD',
+  'openbsd': 'OpenBSD',
+  'sunos': 'Solaris'
 }
 
 export const Browsers = {
-	ubuntu: browser => ['Ubuntu', browser, '20.0.04'] as [string, string, string],
-	macOS: browser => ['Mac OS', browser, '10.15.7'] as [string, string, string],
-	baileys: browser => ['Baileys', browser, '4.0.0'] as [string, string, string],
-	windows: browser => ['Windows', browser, '10.0.22621'] as [string, string, string],
+  ubuntu: (browser) => ['Ubuntu', browser, '22.04.4'] as [string, string, string],
+  macOS: (browser) => ['Mac OS', browser, '14.4.1'] as [string, string, string],
+  baileys: (browser) => ['Baileys', browser, '6.5.0'] as [string, string, string],
+  windows: (browser) => ['Windows', browser, '10.0.22631'] as [string, string, string], 
+  iOS: (browser) => ['iOS', browser, '18.2'] as [string, string, string],
+  linux: (browser) => ['Linux', browser, '6.12.6'] as [string, string, string],
 	/** The appropriate browser based on your OS & release */
 	appropriate: browser => [ PLATFORM_MAP[platform()] || 'Ubuntu', browser, release() ] as [string, string, string]
 }
