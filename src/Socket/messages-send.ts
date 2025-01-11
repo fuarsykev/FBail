@@ -823,9 +823,16 @@ export const makeMessagesSocket = (config: SocketConfig) => {
 						...options,
 					}
 				)
-				const isDeleteMsg = 'delete' in content && !!content.delete
-				const isEditMsg = 'edit' in content && !!content.edit
 				const isAiMsg = 'ai' in content && !!content.ai
+				const isPinMsg = 'pin' in content && !!content.pin;
+                const isPollMsg = 'poll' in content && !!content.poll;
+                const isEditMsg = 'edit' in content && !!content.edit;
+                const isDeleteMsg = 'delete' in content && !!content.delete;                
+                const isButtonsMsg = 'buttons' in content && !!content.buttons;
+                const isListMsg = 'sections' in content && !!content.sections;
+                const isTemplateButtons = 'templateButtons' in content && !!content.templateButtons;                                                      
+                const isInteractiveButtons = 'interactiveButtons' in content && !!content.interactiveButtons;
+                
 				const additionalAttributes: BinaryNodeAttributes = { }
 				const additionalNodes = []
 				// required for delete
@@ -838,14 +845,31 @@ export const makeMessagesSocket = (config: SocketConfig) => {
 					}
 				} else if(isEditMsg) {
 					additionalAttributes.edit = isJidNewsLetter(jid) ? '3' : '1'
-				} else if(isAiMsg) {
+				} else if(isPinMsg) {
+                    additionalAttributes.edit = '2';
+                } else if (isButtonsMsg) {
+                } else if(isListMsg) {
+                } else if(isTemplateButtons) {
+                } else if(isInteractiveButtons) {
+                } else if(isAiMsg) {
 				    (additionalNodes as BinaryNode[]).push({
                         attrs: {
                             biz_bot: '1'
                         },
                         tag: "bot"
-                    })
-				}
+                        }, { 
+                        attrs: {}, 
+                        tag: "biz" 
+                      }
+                   )
+				} else if(isPollMsg) {
+                    (additionalNodes as BinaryNode[]).push({
+                        tag: 'meta',
+                        attrs: {
+                            polltype: 'creation'
+                        },
+                    });
+                }
 
 				if (mediaHandle) {
 					additionalAttributes['media_id'] = mediaHandle
