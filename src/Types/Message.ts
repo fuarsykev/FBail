@@ -154,6 +154,15 @@ export type ButtonReplyInfo = {
     index: number
 }
 
+export type GroupInviteInfo = {
+    inviteCode: string;
+    inviteExpiration: number;
+    caption: string;
+    groupJid: string;
+    groupName: string;
+    jpegThumbnail: Buffer;
+}
+
 export type PinInChatInfo = {
     key: WAMessageKey;
     type?: number;
