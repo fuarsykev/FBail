@@ -344,6 +344,71 @@ The store also provides some simple functions such as `loadMessages` that utiliz
 
 **Send all types of messages with a single function:**
 
+
+### Update sending message
+I'm here to add some that are missing, and some new ones.
+``` ts
+// send event
+sock.sendMessage(m.chat, { 
+  event: { 
+    name: "Name", 
+    description: "Description"
+  }
+})
+
+// send call
+sock.sendMessage(m.chat, { 
+  call: { 
+    title: "Title", 
+    type: 1/2 This is also optional and not mandatory. By the way, the default for calls is 1: 1 for regular calls and 2 for video calls. 
+  }, 
+}) 
+
+sock.sendMessage(m.chat, { 
+  call: { 
+    title: "Title" 
+  }, 
+})
+
+// pin chat
+sock.sendMessage(m.chat, {
+  pin: { 
+    key: message.key 
+  }
+}) // can add time, type is optional
+
+sock.sendMessage(m.chat, {
+  pin: { 
+    key: message.key
+    type: 2, 
+    time: 604800
+  }
+}) // default type 1 and default time 604800
+
+// group invite
+sock.sendMessage(m.chat, { 
+  groupInvite: { 
+    groupName: "Your Group Name",  // Group name
+    groupJid: "1234@g.us", // Group ID (example: "12345@g.us")
+    caption: "WhatsApp Group Invitation", // Additional information
+    inviteCode: "CODE INVITATION", // Group invitation code
+    inviteExpiration: number, // Expiration time in seconds (example: 86400 for 24 hours)
+    jpegThumbnail: Buffer // Thumbnails in the form of an image buffer
+  } 
+})
+
+// invite channel admin
+sock.sendMessage(m.chat, {
+   inviteAdmin: {
+        newsletterJid: "1234@newsletter", // Channel ID (example: "12345@newsletter")
+        newsletterName: "WhatsApp", // Channel name        
+        caption: "Accept this invitation to be an admin on my WhatsApp channel", // Additional information
+        inviteExpiration: number, // Expiration time in seconds (example: 86400 for 24 hours)
+        jpegThumbnail: Buffer // Thumbnails in the form of an image buffer
+      }
+})
+```
+
 ### Non-Media Messages
 
 ``` ts
