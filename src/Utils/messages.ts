@@ -407,8 +407,17 @@ export const generateWAMessageContent = async(
         }
         m.pinInChatMessage = {
             key: message.pin.key, 
-            type: message.pin.type ?? 1,
+            type: message.pin.type || 1,
             senderTimestampMs: Date.now()
+         }
+	} else if('keep' in message) {
+        m.messageContextInfo = {
+        	messageAddOnDurationInSecs: message.keep.type === 1 ? message.keep.time : WA_DEFAULT_EPHEMERAL
+        }
+        m.keepInChatMessage = {
+            key: message.keep.key, 
+            keepType: message.keep.type || 1,
+            timestampMs: Date.now()
          }
 	} else if('call' in message) {
           m = { 
