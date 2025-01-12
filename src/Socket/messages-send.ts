@@ -547,7 +547,7 @@ export const makeMessagesSocket = (config: SocketConfig) => {
 				if(additionalNodes && additionalNodes.length > 0) {
                       (stanza.content as BinaryNode[]).push(...additionalNodes);
                 } else {
-                   if((isJidGroup(jid) || isJidUser(jid)) && (message?.viewOnceMessage || message?.viewOnceMessageV2 || message?.viewOnceMessageV2Extension || message?.ephemeralMessage || message?.interactiveMessage || message?.buttonsMessage)) {
+                   if((isJidGroup(jid) || isJidUser(jid)) && (message?.viewOnceMessage?.interactiveMessage || message?.viewOnceMessageV2?.interactiveMessage || message?.viewOnceMessageV2Extension?.interactiveMessage || message?.ephemeralMessage || message?.interactiveMessage || message?.buttonsMessage)) {
                       (stanza.content as BinaryNode[]).push({
 						tag: 'biz',
 						attrs: {},
@@ -835,7 +835,7 @@ export const makeMessagesSocket = (config: SocketConfig) => {
                 const isInteractiveButtons = 'interactiveButtons' in content && !!content.interactiveButtons;
                 
 				const additionalAttributes: BinaryNodeAttributes = { }
-				const additionalNodes = []
+				const additionalNodes: BinaryNode[] = []
 				// required for delete
 				if(isDeleteMsg) {
 					// if the chat is a group, and I am not the author, then delete the message as an admin
@@ -849,7 +849,7 @@ export const makeMessagesSocket = (config: SocketConfig) => {
 				} else if(isPinMsg) {
                     additionalAttributes.edit = '2';
                 } else if(isKeepMsg) {
-                    additionalAttributes.edit = '4'
+                    additionalAttributes.edit = '3'
                 } else if (isButtonsMsg) {
                 } else if(isListMsg) {
                 } else if(isTemplateButtons) {
