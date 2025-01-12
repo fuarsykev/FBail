@@ -574,10 +574,11 @@ export const generateWAMessageContent = async(
 	}
 	
 	if('interactiveButtons' in message && !!message.interactiveButtons) {
+	    const nativeFlowMessage: WAProto.Message.InteractiveMessage.NativeFlowMessage.fromObject({
+	         buttons: message.interactiveButtons
+	    })
 	    const interactiveMessage: WAProto.Message.InteractiveMessage = {
-	         nativeFlowMessage: WAProto.Message.InteractiveMessage.NativeFlowMessage.create({
-	           buttons: WAProto.Message.InteractiveMessage.NativeFlowMessage.NativeFlowButton[] = message.interactiveButtons
-	         })
+	         nativeFlowMessage: nativeFlowMessage
 	      }
 	      
 	    if('text' in message) {
