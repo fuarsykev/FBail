@@ -572,6 +572,41 @@ export const generateWAMessageContent = async(
 
 		m = { listMessage }
 	}
+	
+	if('interactiveButtons' in message && !!message.interactiveButtons) {
+	    const interactiveMessage: proto.Message.IInteractiveMessage = {
+	         nativeFlowMessage: interactiveMessage.NativeFlowMessage.create({
+	           buttons: message.interactiveButtons
+	         })
+	      }
+	      
+	    if('text' in message) {
+		    body: interactiveMessage.Body.create({
+		       text: message.text
+		    })
+		    
+		} else {
+		   if('caption' in message) {
+		     body: interactiveMessage.Body.create({
+		       text: message.body
+		     })
+		   }
+		}				
+				
+		if('footer' in message) {
+		   footer: interactiveMessage.Footer.create({
+		       text: message.footer
+		   })
+		}
+		
+		if('title' in message) {
+		   header: interactiveMessage.Header.create({
+		       title: message.title,
+		       subtitle: message.subtitle
+		   })
+		}
+	   m = { interactiveMessage }
+	}
 
 	if('viewOnce' in message && !!message.viewOnce) {
 		m = { viewOnceMessage: { message: m } }
