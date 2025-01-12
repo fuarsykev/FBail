@@ -169,6 +169,12 @@ export type PinInChatInfo = {
     time?: number;
 }
 
+export type KeepInChatInfo = {
+    key: WAMessageKey;
+    type?: number;
+    time?: number;
+}
+
 export type CallCreationInfo = {
     time?: number;
     type?: number;
@@ -226,6 +232,8 @@ export type AnyRegularMessageContent = (
     | {
      pin: PinInChatInfo
     }
+    | {
+     keep: KeepInChatInfo
     | {
      call: CallCreationInfo
     }
