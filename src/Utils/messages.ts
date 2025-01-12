@@ -604,6 +604,7 @@ export const generateWAMessageContent = async(
              }
           }
        }
+    }
 
 	if('viewOnce' in message && !!message.viewOnce) {
 		m = { viewOnceMessage: { message: m } }
