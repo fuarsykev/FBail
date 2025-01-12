@@ -588,9 +588,10 @@ export const generateWAMessageContent = async(
 		} else {
 		   if('caption' in message) {
 		     body: interactiveMessage.Body.create({
-		       text: message.body
+		       text: message.caption
 		     })
 		   }
+		   Object.assign(interactiveMessage, m)
 		}				
 				
 		if('footer' in message) {
