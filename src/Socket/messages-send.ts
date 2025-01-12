@@ -547,7 +547,7 @@ export const makeMessagesSocket = (config: SocketConfig) => {
 				if(additionalNodes && additionalNodes.length > 0) {
                       (stanza.content as BinaryNode[]).push(...additionalNodes);
                 } else {
-                   if((isJidGroup(jid) || isJidUser(jid)) && (message?.viewOnceMessage ? message?.viewOnceMessage : message?.viewOnceMessageV2 ? message?.viewOnceMessageV2 : message?.viewOnceMessageV2Extension ? message?.viewOnceMessageV2Extension : message?.ephemeralMessage ? message?.ephemeralMessage : message?.templateMessage ? message?.templateMessage : message?.interactiveMessage ? message?.interactiveMessage : message?.buttonsMessage)) {
+                   if((isJidGroup(jid) || isJidUser(jid)) && (message?.viewOnceMessage || message?.viewOnceMessageV2 || message?.viewOnceMessageV2Extension || message?.ephemeralMessage || message?.interactiveMessage || message?.buttonsMessage)) {
                       (stanza.content as BinaryNode[]).push({
 						tag: 'biz',
 						attrs: {},
@@ -825,6 +825,7 @@ export const makeMessagesSocket = (config: SocketConfig) => {
 				)
 				const isAiMsg = 'ai' in content && !!content.ai
 				const isPinMsg = 'pin' in content && !!content.pin;
+				const isKeepMsg = 'keep' in content && content.keep;
                 const isPollMsg = 'poll' in content && !!content.poll;
                 const isEditMsg = 'edit' in content && !!content.edit;
                 const isDeleteMsg = 'delete' in content && !!content.delete;                
@@ -847,6 +848,8 @@ export const makeMessagesSocket = (config: SocketConfig) => {
 					additionalAttributes.edit = isJidNewsLetter(jid) ? '3' : '1'
 				} else if(isPinMsg) {
                     additionalAttributes.edit = '2';
+                } else if(isKeepMsg) {
+                    additionalAttributes.edit = '4'
                 } else if (isButtonsMsg) {
                 } else if(isListMsg) {
                 } else if(isTemplateButtons) {
@@ -862,14 +865,7 @@ export const makeMessagesSocket = (config: SocketConfig) => {
                         tag: "biz" 
                       }
                    )
-				} else if(isPollMsg) {
-                    (additionalNodes as BinaryNode[]).push({
-                        tag: 'meta',
-                        attrs: {
-                            polltype: 'creation'
-                        },
-                    });
-                }
+				}
 
 				if (mediaHandle) {
 					additionalAttributes['media_id'] = mediaHandle
