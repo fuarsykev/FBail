@@ -234,6 +234,7 @@ export type AnyRegularMessageContent = (
     }
     | {
      keep: KeepInChatInfo
+    }
     | {
      call: CallCreationInfo
     }
