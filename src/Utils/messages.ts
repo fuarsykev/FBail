@@ -574,42 +574,36 @@ export const generateWAMessageContent = async(
 	}
 	
 	if('interactiveButtons' in message && !!message.interactiveButtons) {
-	    const nativeFlowMessage: WAProto.Message.InteractiveMessage.NativeFlowMessage = {
-	         buttons: message.interactiveButtons
-	    }
-	    const interactiveMessage: WAProto.Message.InteractiveMessage = {
-	         nativeFlowMessage: nativeFlowMessage
-	      }
-	      
-	    if('text' in message) {
-		    body: interactiveMessage.Body.create({
-		       text: message.text
-		    })
-		    
-		} else {
-		   if('caption' in message) {
-		     body: interactiveMessage.Body.create({
-		       text: message.caption
-		     })
-		   }
-		   Object.assign(interactiveMessage, m)
-		}				
-				
-		if('footer' in message) {
-		   footer: interactiveMessage.Footer.create({
-		       text: message.footer
-		   })
-		}
-		
-		if('title' in message) {
-		   header: interactiveMessage.Header.create({
-		       title: message.title,
-		       subtitle: message.subtitle,
-		       hasMediaAttachment: message.header ?? false
-		   })
-		}
-	   m = { interactiveMessage }
-	}
+	   m = { 
+          viewOnceMessage: {
+             message: {
+                interactiveMessage: {
+        	       header: {
+		               title: message.title,
+		               subtitle: message.subtitle,
+		               hasMediaAttachment: message.header ?? false,
+		               imageMessage: message.image ?? null,
+		               videoMessage: message.video ?? null,
+		               documentMessage: message.document ?? null,
+		               locationMessage: message.location ?? null,
+		               productMesage: {
+		                  product: message.product,
+		                  ...message,
+		               },
+		           },
+		           body: {
+		               text: message.caption || message.text
+		           },
+		           footer: {
+		               text: message.footer
+		           },
+		           nativeFlowMessage: {
+		               buttons: message.interactiveButtons
+		           },
+		        }, 
+             }
+          }
+       }
 
 	if('viewOnce' in message && !!message.viewOnce) {
 		m = { viewOnceMessage: { message: m } }
