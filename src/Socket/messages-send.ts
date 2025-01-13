@@ -849,7 +849,7 @@ export const makeMessagesSocket = (config: SocketConfig) => {
 				} else if(isPinMsg) {
                     additionalAttributes.edit = '2';
                 } else if(isKeepMsg) {
-                    additionalAttributes.edit = '5'
+                    additionalAttributes.edit = '2';
                 } else if (isButtonsMsg) {
                 } else if(isListMsg) {
                 } else if(isTemplateButtons) {
