@@ -134,6 +134,11 @@ type RequestPhoneNumber = {
 export type MediaType = keyof typeof MEDIA_HKDF_KEY_MAPPING
 export type AnyMediaMessageContent = (
     ({
+	    text: string
+        linkPreview?: WAUrlInfo | null
+    }
+    & Mentionable & Contextable & Buttonable & Templatable & Listable & Editable & Interactiveable)
+    | ({
         image: WAMediaUpload
         caption?: string
         jpegThumbnail?: string
@@ -156,7 +161,8 @@ export type AnyMediaMessageContent = (
     | ({
         sticker: WAMediaUpload
         isAnimated?: boolean
-    } & WithDimensions) | ({
+    } & WithDimensions) 
+    | ({
         document: WAMediaUpload
         mimetype: string
         fileName?: string
