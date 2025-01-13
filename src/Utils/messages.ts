@@ -411,9 +411,6 @@ export const generateWAMessageContent = async(
             senderTimestampMs: Date.now()
          }
 	} else if('keep' in message) {
-        m.messageContextInfo = {
-        	messageAddOnDurationInSecs: message.keep.type === 1 ? message.keep.time : WA_DEFAULT_EPHEMERAL
-        }
         m.keepInChatMessage = {
             key: message.keep.key, 
             keepType: message.keep.type || 1,
