@@ -94,22 +94,6 @@ type Listable = {
     /** Text of the bnutton on the list (required) */
     buttonText?: string
 }
-type Interactiveable = {
-    /** Buttons of the Message */
-    interactiveButtons?: proto.Message.InteractiveMessage.NativeFlowMessage.INativeFlowButton[]
-
-    /** Header of a Media Message */
-    media?: boolean
-    
-    /** Title of a Message only */
-    title?: string
-  
-    /** Subtitle of a Message only */
-    subtitle?: string
-
-    /** Text of the button on the message (required) */
-    text?: string
-}
 type WithDimensions = {
     width?: number
     height?: number
@@ -137,7 +121,7 @@ export type AnyMediaMessageContent = (
         image: WAMediaUpload
         caption?: string
         jpegThumbnail?: string
-    } & Mentionable & Contextable & Buttonable & Interactiveable & Templatable & WithDimensions)
+    } & Mentionable & Contextable & Buttonable & Templatable & WithDimensions)
     | ({
         video: WAMediaUpload
         caption?: string
@@ -145,7 +129,7 @@ export type AnyMediaMessageContent = (
         jpegThumbnail?: string
         /** if set to true, will send as a `video note` */
         ptv?: boolean
-    } & Mentionable & Contextable & Buttonable & Interactiveable & Templatable & WithDimensions)
+    } & Mentionable & Contextable & Buttonable & Templatable & WithDimensions)
     | {
         audio: WAMediaUpload
         /** if set to true, will send as a `voice note` */
@@ -162,7 +146,7 @@ export type AnyMediaMessageContent = (
         mimetype: string
         fileName?: string
         caption?: string
-    } & Contextable & Buttonable & Templatable & Interactiveable))
+    } & Contextable & Buttonable & Templatable))
     & { mimetype?: string } & Editable
 
 export type ButtonReplyInfo = {
@@ -224,11 +208,11 @@ export type AnyRegularMessageContent = (
 	    text: string
         linkPreview?: WAUrlInfo | null
     }
-    & Mentionable & Contextable & Buttonable & Templatable & Listable & Editable & Interactiveable)
+    & Mentionable & Contextable & Buttonable & Templatable & Listable & Editable)
     | AnyMediaMessageContent
     | ({
         poll: PollMessageOptions
-    } & Mentionable & Contextable & Buttonable & Interactiveable & Templatable & Editable)
+    } & Mentionable & Contextable & Buttonable & Templatable & Editable)
     | {
         contacts: {
             displayName?: string
@@ -269,7 +253,7 @@ export type AnyRegularMessageContent = (
         businessOwnerJid?: string
         body?: string
         footer?: string
-    } & Mentionable & Contextable & Interactiveable & WithDimensions) 
+    } & Mentionable & Contextable & WithDimensions) 
     | SharePhoneNumber | RequestPhoneNumber
 ) & ViewOnce
 
