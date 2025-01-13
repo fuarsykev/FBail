@@ -94,6 +94,23 @@ type Listable = {
     /** Text of the bnutton on the list (required) */
     buttonText?: string
 }
+type Interactiveable = {
+    /** Buttons of the Message */
+    interactiveButtons?: proto.Message.InteractiveMessage.NativeFlowMessage.INativeFlowButton[]
+
+    /** Header of a Media Message */
+    header?: boolean
+    
+    /** Title of a Message only */
+    title?: string
+  
+    /** Subtitle of a Message only */
+    subtitle?: string
+
+    /** Text of the button on the message (required) */
+    text?: string
+    caption?: string
+}
 type WithDimensions = {
     width?: number
     height?: number
@@ -207,7 +224,7 @@ export type AnyRegularMessageContent = (
 	    text: string
         linkPreview?: WAUrlInfo | null
     }
-    & Mentionable & Contextable & Buttonable & Templatable & Listable & Editable)
+    & Mentionable & Contextable & Buttonable & Templatable & Listable & Editable & Interactiveable)
     | AnyMediaMessageContent
     | ({
         poll: PollMessageOptions
