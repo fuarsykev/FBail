@@ -581,15 +581,7 @@ export const generateWAMessageContent = async(
         	       header: {
 		               title: message.title,
 		               subtitle: message.subtitle,
-		               hasMediaAttachment: message.header ?? false,
-		               imageMessage: message.image ?? null,
-		               videoMessage: message.video ?? null,
-		               documentMessage: message.document ?? null,
-		               locationMessage: message.location ?? null,
-		               productMesage: {
-		                  product: message.product,
-		                  ...message,
-		               },
+		               hasMediaAttachment: message.media ?? false,
 		           },
 		           body: {
 		               text: message.caption || message.text
