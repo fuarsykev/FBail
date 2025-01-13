@@ -572,31 +572,6 @@ export const generateWAMessageContent = async(
 
 		m = { listMessage }
 	}
-	
-	if('interactiveButtons' in message && !!message.interactiveButtons) {
-	   m = { 
-          viewOnceMessage: {
-             message: {
-                interactiveMessage: {
-        	       header: {
-		               title: message.title,
-		               subtitle: message.subtitle,
-		               hasMediaAttachment: message.media ?? false,
-		           },
-		           body: {
-		               text: message.text
-		           },
-		           footer: {
-		               text: message.footer
-		           },
-		           nativeFlowMessage: {
-		               buttons: message.interactiveButtons
-		           },
-		        }, 
-             }
-          }
-       }
-    }
 
 	if('viewOnce' in message && !!message.viewOnce) {
 		m = { viewOnceMessage: { message: m } }
