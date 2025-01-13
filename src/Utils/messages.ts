@@ -584,7 +584,7 @@ export const generateWAMessageContent = async(
 		               hasMediaAttachment: message.media ?? false,
 		           },
 		           body: {
-		               text: message.caption || message.text
+		               text: message.text
 		           },
 		           footer: {
 		               text: message.footer
