@@ -161,7 +161,7 @@ export const generateProfilePicture = async(mediaUpload: WAMediaUpload) => {
 			})
 			.toBuffer()
 	} else if('jimp' in lib && typeof lib.jimp?.read === 'function') {
-		const { read, MIME_JPEG, RESIZE_BILINEAR, AUTO } = lib.jimp
+		import { read, MIME_JPEG, RESIZE_BILINEAR, AUTO } from 'jimp'
 		const jimp = await read(bufferOrFilePath as any)
         const min = jimp.getWidth()
         const max = jimp.getHeight()
