@@ -167,7 +167,7 @@ export const generateProfilePicture = async(mediaUpload: WAMediaUpload) => {
 		const { read, MIME_JPEG, RESIZE_BILINEAR } = lib.jimp
 		const jimp = await read(bufferOrFilePath as any)
 		const min = jimp.getWidth()
-		const max = jimp.getHeight())
+		const max = jimp.getHeight()
 		const cropped = jimp.crop(0, 0, min, max)
 
 		img = cropped
