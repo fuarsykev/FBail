@@ -160,7 +160,7 @@ export const generateProfilePicture = async(mediaUpload: WAMediaUpload) => {
 
 	img = cropped
 		.quality(100)
-		.scaleToFit(720, 720)
+		.scaleToFit(720, 720, AUTO)
 		.getBufferAsync(MIME_JPEG)
 
 	return {
