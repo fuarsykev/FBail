@@ -142,11 +142,14 @@ export const encodeBase64EncodedStringForUpload = (b64: string) => (
 )
 
 export const generateProfilePicture = async(mediaUpload: WAMediaUpload) => {
+
 	let bufferOrFilePath: Buffer | string
 	if(Buffer.isBuffer(mediaUpload)) {
 		bufferOrFilePath = mediaUpload
-	} else if('url' in mediaUpload) {
+	} else if(mediaUpload === 'object' && 'url' in mediaUpload) {
 		bufferOrFilePath = mediaUpload.url.toString()
+	} else if(mediaUpload === 'string') {
+	    mediaUpload
 	} else {
 		bufferOrFilePath = await toBuffer(mediaUpload.stream)
 	}
@@ -155,7 +158,7 @@ export const generateProfilePicture = async(mediaUpload: WAMediaUpload) => {
 	let img: Promise<Buffer>
 	if('sharp' in lib && typeof lib.sharp?.default === 'function') {
 		img = lib.sharp!.default(bufferOrFilePath)
-			.resize(720, 720)
+			.scaleToFit(720, 720, AUTO)
 			.jpeg({
 				quality: 100,
 			})
@@ -163,12 +166,13 @@ export const generateProfilePicture = async(mediaUpload: WAMediaUpload) => {
 	} else if('jimp' in lib && typeof lib.jimp?.read === 'function') {
 		const { read, MIME_JPEG, RESIZE_BILINEAR } = lib.jimp
 		const jimp = await read(bufferOrFilePath as any)
-		const min = Math.min(jimp.getWidth(), jimp.getHeight())
-		const cropped = jimp.crop(0, 0, min, min)
+		const min = jimp.getWidth()
+		const max = jimp.getHeight())
+		const cropped = jimp.crop(0, 0, min, max)
 
 		img = cropped
 			.quality(100)
-			.resize(720, 720, RESIZE_BILINEAR)
+			.scaleToFit(720, 720, AUTO)
 			.getBufferAsync(MIME_JPEG)
 	} else {
 		throw new Boom('No image processing library available')
