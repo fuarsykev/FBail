@@ -142,48 +142,24 @@ export const encodeBase64EncodedStringForUpload = (b64: string) => (
 )
 
 export const generateProfilePicture = async(mediaUpload: WAMediaUpload) => {
-	let bufferOrFilePath: Buffer | string
-	if(Buffer.isBuffer(mediaUpload)) {
-		bufferOrFilePath = mediaUpload
-	} else if('url' in mediaUpload) {
-		bufferOrFilePath = mediaUpload.url.toString()
-	} else {
-		bufferOrFilePath = await toBuffer(mediaUpload.stream)
-	}
+	const bufferOrFilePath: Buffer | string = Buffer.isBuffer(mediaUpload)
+    ? mediaUpload
+    : typeof mediaUpload === 'object' && 'url' in mediaUpload
+    ? mediaUpload.url.toString()
+    : typeof mediaUpload === 'string'
+    ? mediaUpload
+    : Buffer.from(mediaUpload.stream)
 
-	const lib = await getImageProcessingLibrary()
-	let img: Promise<Buffer>
-	if('sharp' in lib && typeof lib.sharp?.default === 'function') {
-		img = lib.sharp!.default(bufferOrFilePath)
-		      .metadata();
-        const width = metadata.width
-        const height = metadata.height
-        img = lib.sharp!.default(bufferOrFilePath)
-		    .resize(width, height)
-		    .sharpen()
-			.jpeg({
-				quality: 100,
-			})
-			.toBuffer()
-	} else if('jimp' in lib && typeof lib.jimp?.read === 'function') {
-		const { read, MIME_JPEG, RESIZE_BILINEAR } = lib.jimp
-		const jimp = await read(bufferOrFilePath as any)
-	    const min = jimp.getWidth()
-        const max = jimp.getHeight()
+  const { read, MIME_JPEG, AUTO } = require('jimp')
+  const jimp = await read(bufferOrFilePath as any)
+  const min = jimp.getWidth()
+  const max = jimp.getHeight()
 
-        const cropped = jimp.crop(0, 0, min, max)
-
-		img = cropped
-			.quality(100)
-			.scaleToFit(720, 720, RESIZE_BILINEAR)
-			.getBufferAsync(MIME_JPEG)
-	} else {
-		throw new Boom('No image processing library available')
-	}
-
-	return {
-		img: await img,
-	}
+  const cropped = jimp.crop(0, 0, min, max)
+  return cropped
+        .quality(100)
+        .scaleToFit(720, 720, AUTO)
+        .getBufferAsync(MIME_JPEG)
 }
 
 /** gets the SHA256 of the given media message */
