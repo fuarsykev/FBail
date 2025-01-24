@@ -155,10 +155,11 @@ export const generateProfilePicture = async(mediaUpload: WAMediaUpload) => {
 	let img: Promise<Buffer>
 	if('sharp' in lib && typeof lib.sharp?.default === 'function') {
 		img = lib.sharp!.default(bufferOrFilePath)
-		const metadata = await img.metadata();
+		      .metadata();
         const width = metadata.width
         const height = metadata.height
-		 img.resize(width, height)
+        img = lib.sharp!.default(bufferOrFilePath)
+		    .resize(width, height)
 		    .sharpen()
 			.jpeg({
 				quality: 100,
