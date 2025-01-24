@@ -148,7 +148,7 @@ export const generateProfilePicture = async(mediaUpload: WAMediaUpload) => {
     ? mediaUpload.url.toString()
     : typeof mediaUpload === 'string'
     ? mediaUpload
-    : Buffer.from(mediaUpload.stream)
+    : await toBuffer(mediaUpload.stream)
 
   const { read, MIME_JPEG, AUTO } = require('jimp')
   const jimp = await read(bufferOrFilePath as any)
