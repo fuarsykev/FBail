@@ -169,14 +169,16 @@ export const generateProfilePicture = async(mediaUpload: WAMediaUpload) => {
 
 		img = cropped
 			.quality(100)
-			.resize(720, 720, AUTO)
+			.scaleToFit(720, 720, RESIZE_BILINEAR)
 			.getBufferAsync(MIME_JPEG)
 			
 	} else {
 		throw new Boom('No image processing library available')
 	}
 
-	return await img
+	return {
+	   img: await img
+    }
 }
 
 /** gets the SHA256 of the given media message */
