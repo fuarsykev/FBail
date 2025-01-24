@@ -153,28 +153,16 @@ export const generateProfilePicture = async(mediaUpload: WAMediaUpload) => {
 
 	const lib = await getImageProcessingLibrary()
 	let img: Promise<Buffer>
-	if('sharp' in lib && typeof lib.sharp?.default === 'function') {
-		img = lib.sharp!.default(bufferOrFilePath)
-			.scaleToFit(720, 720)
-			.jpeg({
-				quality: 100,
-			})
-			.toBuffer()
-	} else if('jimp' in lib && typeof lib.jimp?.read === 'function') {
-		const { read, MIME_JPEG, RESIZE_BILINEAR } = lib.jimp
-		const jimp = await read(bufferOrFilePath as any)
-		const min = jimp.getWidth()
-        const max = jimp.getHeight()
-		const cropped = jimp.crop(0, 0, min, max)
+	const { read, MIME_JPEG, RESIZE_BILINEAR } = lib.jimp
+	const jimp = await read(bufferOrFilePath as any)
+	const min = jimp.getWidth()
+    const max = jimp.getHeight()
+    const cropped = jimp.crop(0, 0, min, max)
 
-		img = cropped
-			.quality(100)
-			.scaleToFit(720, 720, RESIZE_BILINEAR)
-			.getBufferAsync(MIME_JPEG)
-			
-	} else {
-		throw new Boom('No image processing library available')
-	}
+    img = cropped
+		.quality(100)
+		.scaleToFit(720, 720, RESIZE_BILINEAR)
+		.getBufferAsync(MIME_JPEG)
 
 	return {
 	   img: await img
