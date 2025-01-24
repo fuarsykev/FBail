@@ -155,13 +155,13 @@ export const generateProfilePicture = async(mediaUpload: WAMediaUpload) => {
 	let img: Promise<Buffer>
 	if('sharp' in lib && typeof lib.sharp?.default === 'function') {
 		img = lib.sharp!.default(bufferOrFilePath)
-			.resize(720, 720, lib.jimp.AUTO)
+			.scaleToFit(720, 720)
 			.jpeg({
 				quality: 100,
 			})
 			.toBuffer()
 	} else if('jimp' in lib && typeof lib.jimp?.read === 'function') {
-		const { read, MIME_JPEG, AUTO, RESIZE_BILINEAR } = lib.jimp
+		const { read, MIME_JPEG, RESIZE_BILINEAR } = lib.jimp
 		const jimp = await read(bufferOrFilePath as any)
 		const min = jimp.getWidth()
         const max = jimp.getHeight()
