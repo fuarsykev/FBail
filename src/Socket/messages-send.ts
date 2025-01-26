@@ -555,11 +555,14 @@ export const makeMessagesSocket = (config: SocketConfig) => {
 							tag: 'interactive',
 							attrs: {
 				   				type: 'native_flow',
-			      				 v: '1'
+			      				v: '1'
 							},
 							content: [{
 			   					tag: 'native_flow',
-			   					attrs: { name: 'quick_reply' }
+			   					attrs: { 
+			   					   name: 'quick_reply',
+			   					   v: '1'
+			   				    }
 							}]
     					}]
 				    });
@@ -849,7 +852,7 @@ export const makeMessagesSocket = (config: SocketConfig) => {
 				} else if(isPinMsg) {
                     additionalAttributes.edit = '2';
                 } else if(isKeepMsg) {
-                    additionalAttributes.edit = '2';
+                    additionalAttributes.edit = '9';
                 } else if (isButtonsMsg) {
                 } else if(isListMsg) {
                 } else if(isTemplateButtons) {
