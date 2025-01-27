@@ -176,6 +176,12 @@ export type KeepInChatInfo = {
     time?: number;
 }
 
+export type CallCreationInfo = {
+    time?: number;
+    title?: string;
+    type?: number;
+}
+
 
 export type EventsInfo = {
     isCanceled?: boolean;
@@ -233,6 +239,9 @@ export type AnyRegularMessageContent = (
     }
     | {
      event: EventsInfo
+    }
+    | {
+     call: CallCreationInfo
     } 
     | {
      inviteAdmin: AdminInviteInfo
