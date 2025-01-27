@@ -222,7 +222,7 @@ export type AnyRegularMessageContent = (
     | AnyMediaMessageContent
     | ({
         poll: PollMessageOptions
-    } & Mentionable & Contextable & Buttonable & Templatable & Interactiveable & Editable)
+    } & Mentionable & Contextable & Buttonable & Templatable  & Editable)
     | {
         contacts: {
             displayName?: string
