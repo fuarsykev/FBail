@@ -567,11 +567,11 @@ export const generateWAMessageContent = async(
 	
 	if('interactiveButtons' in message && !!message.interactiveButtons) {
 	   const type = Object.keys(m)[0].replace('Message', '').toLowerCase()
-	   const media = {}
+	   let media = {}
 	   switch (type) {
 	       case "image": {
 	           media = {
-	               imageMessage = await prepareWAMessageMedia(
+	               imageMessage: await prepareWAMessageMedia(
 			       { image: message?.image, ...options },
 			       options
 		           )
@@ -580,7 +580,7 @@ export const generateWAMessageContent = async(
 	       break;
 	       case "video": {
 	           media = {
-	               videoMessage = await prepareWAMessageMedia(
+	               videoMessage: await prepareWAMessageMedia(
 			       { video: message?.video, ...options },
 			       options
 		           )
@@ -589,7 +589,7 @@ export const generateWAMessageContent = async(
 	       break;
 	       case "document": {
 	           media = {
-	               documentMessage = await prepareWAMessageMedia(
+	               documentMessage: await prepareWAMessageMedia(
 			       { document: message?.document, ...options },
 			       options
 		           )
@@ -598,7 +598,7 @@ export const generateWAMessageContent = async(
 	       break;
 	       case "location": {
 	           media = {
-	               locationMessage = WAProto.Message.LocationMessage.fromObject(message.location)
+	               locationMessage: WAProto.Message.LocationMessage.fromObject(message.location)
 	           }
 	       }
 	       break;
@@ -608,7 +608,7 @@ export const generateWAMessageContent = async(
 			   options
 		       );
 	           media = {
-	              productMessage = WAProto.Message.ProductMessage.fromObject({
+	              productMessage: WAProto.Message.ProductMessage.fromObject({
 			           ...message,
 			           product: {
 				          ...message.product,
