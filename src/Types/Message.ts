@@ -128,7 +128,7 @@ export type AnyMediaMessageContent = (
         image: WAMediaUpload
         caption?: string
         jpegThumbnail?: string
-    } & Mentionable & Contextable & Buttonable & Interactiveable & Templatable & Interactiveable & WithDimensions)
+    } & Mentionable & Contextable & Buttonable & Templatable & Interactiveable & WithDimensions)
     | ({
         video: WAMediaUpload
         caption?: string
@@ -136,7 +136,7 @@ export type AnyMediaMessageContent = (
         jpegThumbnail?: string
         /** if set to true, will send as a `video note` */
         ptv?: boolean
-    } & Mentionable & Contextable & Buttonable & Interactiveable & Templatable & Interactiveable & WithDimensions)
+    } & Mentionable & Contextable & Buttonable & Templatable & Interactiveable & WithDimensions)
     | {
         audio: WAMediaUpload
         /** if set to true, will send as a `voice note` */
@@ -220,7 +220,7 @@ export type AnyRegularMessageContent = (
     | AnyMediaMessageContent
     | ({
         poll: PollMessageOptions
-    } & Mentionable & Contextable & Buttonable & Interactiveable & Templatable  & Editable)
+    } & Mentionable & Contextable & Buttonable & Templatable  & Editable)
     | {
         contacts: {
             displayName?: string
