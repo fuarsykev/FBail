@@ -596,9 +596,11 @@ export const generateWAMessageContent = async(
 	       header: interactiveMessage.header = {
 	          title: message.title,
 	          ...message,
-	          ...(await prepareWAMessageMedia(
-			     message,
-			     options
+	          ...(await prepareWAMessageMedia({
+			     ...message,
+			     ...options
+			    },
+			    options
 		      ))
 	       }
 	      
