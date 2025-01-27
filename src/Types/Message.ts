@@ -83,6 +83,10 @@ type Templatable = {
     footer?: string
 }
 
+type Interactiveable = {
+    /** add buttons to the message  */
+    interactiveButtons?: proto.Message.InteractiveMessage.NativeFlowMessage.NativeFlowButton[]
+}
 
 type Editable = {
   edit?: WAMessageKey
