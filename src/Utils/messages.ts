@@ -554,6 +554,21 @@ export const generateWAMessageContent = async(
     }
 	
 	if('interactiveButtons' in message && !!message.interactiveButtons) {
+	   const { imageMessage } = message.image ?
+	        await prepareWAMessageMedia(
+			    { image: message.Image, ...options },
+			    options
+	        ) : null
+	   const { videoMessage } = message.video ?
+	        await prepareWAMessageMedia(
+			    { video: message.video, ...options },
+			    options
+	        ) : null
+       const { documentMessage } = message.document ?
+	        await prepareWAMessageMedia(
+			    { document: message.document, ...options },
+			    options
+	        ) : null 
 	   const interactiveMessage: proto.Message.IInteractiveMessage = {
 	      nativeFlowMessage: WAProto.Message.InteractiveMessage.NativeFlowMessage.fromObject({ 
 	         buttons: message.interactiveButtons,
@@ -584,6 +599,9 @@ export const generateWAMessageContent = async(
 	       header: interactiveMessage.header = {
 	          title: message.title,
 	          ...message,
+	          imageMessage: imageMessage ?? null,
+	          videoMessage: videoMessage ?? null,
+	          documentMessage: documentMessage ?? null
 	       }
 	   }
 	   
