@@ -216,7 +216,7 @@ export type AnyRegularMessageContent = (
 	    text: string
         linkPreview?: WAUrlInfo | null
     }
-    & Mentionable & Contextable & Buttonable & Interactiveable & Templatable & Listable & Editable)
+    & Mentionable & Contextable & Buttonable & Templatable & Listable & Editable)
     | AnyMediaMessageContent
     | ({
         poll: PollMessageOptions
