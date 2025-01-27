@@ -176,11 +176,6 @@ export type KeepInChatInfo = {
     time?: number;
 }
 
-export type CallCreationInfo = {
-    time?: number;
-    type?: number;
-    title: string;
-}
 
 export type EventsInfo = {
     isCanceled?: boolean;
@@ -235,9 +230,6 @@ export type AnyRegularMessageContent = (
     }
     | {
      keep: KeepInChatInfo
-    }
-    | {
-     call: CallCreationInfo
     }
     | {
      event: EventsInfo
