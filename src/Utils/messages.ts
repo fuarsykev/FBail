@@ -417,17 +417,13 @@ export const generateWAMessageContent = async(
             timestampMs: Date.now()
          }
 	} else if('call' in message) {
-          m = { 
-             viewOnceMessage: {
-                message: {
-                   scheduledCallCreationMessage: {
-        	          scheduledTimestampMs: message.call.time ? message.call.time : Date.now(), 
-                      callType: message.call.type ?? 1, 
-                      title: message.call.title
-                   } 
-                }
-             }
-          }
+        m = { 
+           scheduledCallCreationMessage: {
+              scheduledTimestampMs: message.time ?? Date.now(),
+              callType: message.call ?? 1, 
+              title: message.title
+           } 
+        }
 	} else if('buttonReply' in message) {
 		switch (message.type) {
 		case 'template':
@@ -555,6 +551,43 @@ export const generateWAMessageContent = async(
 				hydratedTemplate: msg
 			}
 		}
+    }
+	
+	if('interactiveButtons' in message && !!message.interactiveButtons) {
+	   const interactiveMessage: proto.Message.IinteractiveMessage = {
+	      nativeFlowMessage: WAProto.NativeFlowMessage.fromObject({ 
+	         buttons: message.interactiveButtons,
+	      })
+	   }
+	   
+	   if('text' in message) {
+	       body: interactiveMessage.body = { 
+	           text: message.text
+	       }
+	   } else {
+	      if('caption' in message) {
+	          body: interactiveMessage.body = {
+	              text: message.caption
+	          }
+	      }
+	      
+	      Object.assign(interactiveMessage, m)
+	   }
+	   
+	   if('footer' in message && !!message.footer) {
+		   footer: interactiveMessage.footer = {
+		      text: message.footer
+		   }
+	   }
+	   
+	   if('title' in message && !!message.title) {
+	       header: interactiveMessage.header = {
+	          title: message.title,
+	          subtitle: message.subtitle,
+	       }
+	   }
+	   
+	   m = { interactiveMessage }
 	}
 
 	if('sections' in message && !!message.sections) {
