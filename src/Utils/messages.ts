@@ -523,6 +523,18 @@ export const generateWAMessageContent = async(
 		if('footer' in message && !!message.footer) {
 			buttonsMessage.footerText = message.footer
 		}
+		
+        if('title' in message && !!message.title) {
+        	buttonsMessage.text = message.title
+        }
+        
+        if('contextInfo' in message && !!message.contextInfo) {
+        	buttonsMessage.contextInfo = message.contextInfo
+        }
+        
+        if('mentions' in message && !!message.mentions) {
+        	buttonsMessage.contextInfo = { mentionedJid: message.mentions }
+        }
 
 		m = { buttonsMessage }
 	} else if('templateButtons' in message && !!message.templateButtons) {
@@ -554,24 +566,59 @@ export const generateWAMessageContent = async(
     }
 	
 	if('interactiveButtons' in message && !!message.interactiveButtons) {
-	   const image = message?.header?.image 
-	      ? await prepareWAMessageMedia(
-			{ image: message.header.image, ...options },
-			options
-		  ) 
-		  : null
-       const video = message?.header?.video 
-	      ? await prepareWAMessageMedia(
-			{ image: message.header.video, ...options },
-			options
-		  ) 
-		  : null       
-      const doc = message?.header?.document
-          ? await prepareWAMessageMedia(
-             { document: message.header.document, ...options },
-             options
-          )
-          : null;
+	   const type = Object.keys(m)[0].replace('Message', '').toLowerCase()
+	   const media = {}
+	   switch (type) {
+	       case "image": {
+	           media = {
+	               imageMessage = await prepareWAMessageMedia(
+			       { image: message?.image, ...options },
+			       options
+		           )
+	           }
+	       }
+	       break;
+	       case "video": {
+	           media = {
+	               videoMessage = await prepareWAMessageMedia(
+			       { video: message?.video, ...options },
+			       options
+		           )
+	           }
+	       }
+	       break;
+	       case "document": {
+	           media = {
+	               documentMessage = await prepareWAMessageMedia(
+			       { document: message?.document, ...options },
+			       options
+		           )
+	           }
+	       }
+	       break;
+	       case "location": {
+	           media = {
+	               locationMessage = WAProto.Message.LocationMessage.fromObject(message.location)
+	           }
+	       }
+	       break;
+	       case "product": {
+	           const { imageMessage } = await prepareWAMessageMedia(
+			   { image: message.product.productImage },
+			   options
+		       );
+	           media = {
+	              productMessage = WAProto.Message.ProductMessage.fromObject({
+			           ...message,
+			           product: {
+				          ...message.product,
+				          productImage: imageMessage,
+			          }
+		          })
+	           }
+	       }
+	       break;
+	   }
 	   const interactiveMessage: proto.Message.IInteractiveMessage = {
 	      nativeFlowMessage: WAProto.Message.InteractiveMessage.NativeFlowMessage.fromObject({ 
 	         buttons: message.interactiveButtons,
@@ -599,20 +646,8 @@ export const generateWAMessageContent = async(
 	   if('title' in message && !!message.title) {
 	       header: interactiveMessage.header = {
 	          title: message.title,
+	          ...media,
 	          ...message,
-	          imageMessage: image ? image.imageMessage : null,
-	          documentMessage: doc ? doc.documentMessage : null,
-	          videoMessage: video ? video.videoMessage : null,
-	          locationMessage: message?.header?.location ?? null,
-	          productMesage: message?.header?.product ? 
-	              WAProto.Message.ProductMessage.fromObject({
-			         ...message,
-			         product: {
-			    	    ...message.product,
-				        productImage: image.imageMessage,
-			         }
-		          }
-		      ) : null,
 	       }
 	   }
 	   
