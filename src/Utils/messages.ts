@@ -596,6 +596,11 @@ export const generateWAMessageContent = async(
 	       header: interactiveMessage.header = {
 	          title: message.title,
 	          ...message,
+	          imageMessage: { ...message },
+	          videoMessage: { ...message },
+	          documentMessage: { ...message },
+	          locationMessage: { ...message },
+	          productMesage: { ...message }
 	       }
 	      
 	      Object.assign(interactiveMessage, m)
