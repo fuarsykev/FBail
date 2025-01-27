@@ -417,13 +417,10 @@ export const generateWAMessageContent = async(
             timestampMs: Date.now()
          }
 	} else if('call' in message) {
-        m = { 
-           scheduledCallCreationMessage: {
-              scheduledTimestampMs: message.time ?? Date.now(),
-              callType: message.call ?? 1, 
-              title: message.title
-           } 
-        }
+      m.scheduledCallCreationMessage = {}
+      m.scheduledCallCreationMessage.scheduledTimestampMs = message.time ?? Date.now(),
+      m.scheduledCallCreationMessage.callType = message.call ?? 1, 
+      m.scheduledCallCreationMessage.title = message.title
 	} else if('buttonReply' in message) {
 		switch (message.type) {
 		case 'template':
@@ -554,7 +551,7 @@ export const generateWAMessageContent = async(
     }
 	
 	if('interactiveButtons' in message && !!message.interactiveButtons) {
-	   const interactiveMessage: proto.Message.IinteractiveMessage = {
+	   const interactiveMessage: proto.Message.IInteractiveMessage = {
 	      nativeFlowMessage: WAProto.NativeFlowMessage.fromObject({ 
 	         buttons: message.interactiveButtons,
 	      })
@@ -583,7 +580,6 @@ export const generateWAMessageContent = async(
 	   if('title' in message && !!message.title) {
 	       header: interactiveMessage.header = {
 	          title: message.title,
-	          subtitle: message.subtitle,
 	       }
 	   }
 	   
