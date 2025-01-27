@@ -130,7 +130,7 @@ export type AnyMediaMessageContent = (
         image: WAMediaUpload
         caption?: string
         jpegThumbnail?: string
-    } & Mentionable & Contextable & Buttonable & Templatable & Interactiveable & WithDimensions)
+    } & Mentionable & Contextable & Buttonable & Templatable & WithDimensions)
     | ({
         video: WAMediaUpload
         caption?: string
@@ -138,7 +138,7 @@ export type AnyMediaMessageContent = (
         jpegThumbnail?: string
         /** if set to true, will send as a `video note` */
         ptv?: boolean
-    } & Mentionable & Contextable & Buttonable & Templatable & Interactiveable & WithDimensions)
+    } & Mentionable & Contextable & Buttonable & Templatable  & WithDimensions)
     | {
         audio: WAMediaUpload
         /** if set to true, will send as a `voice note` */
