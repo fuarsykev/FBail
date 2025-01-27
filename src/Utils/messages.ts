@@ -422,6 +422,8 @@ export const generateWAMessageContent = async(
            scheduledTimestampMs: message.call.time ?? Date.now(),
            callType: message.call.type ?? 1, 
            title: message.call.title
+        }
+      }
 	} else if('buttonReply' in message) {
 		switch (message.type) {
 		case 'template':
