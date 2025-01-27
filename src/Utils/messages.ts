@@ -584,12 +584,7 @@ export const generateWAMessageContent = async(
 	       header: interactiveMessage.header = {
 	          title: message.title,
 	          ...message,
-	          hasMediaAttachment: false,
-	          imageMessage: message.image ?? null,
-	          videoMessage: message.video ?? null,
-	          documentMessage: message.document ?? null,
-	          locationMessage: message.location ?? null,
-	          productMesage: message.product ?? null
+	          hasMediaAttachment: message.media ?? false,
 	       }
 	   }
 	   
