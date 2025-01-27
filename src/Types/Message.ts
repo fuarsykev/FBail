@@ -83,6 +83,13 @@ type Templatable = {
     footer?: string
 }
 
+type Interactiveable = {
+    /** add buttons to the message  */
+    interactiveButtons?: proto.Message.InteractiveMessage.NativeFlowMessage.NativeFlowButton[]
+    
+    header?: { [_: string]: string };
+}
+
 type Editable = {
   edit?: WAMessageKey
 }
@@ -123,7 +130,7 @@ export type AnyMediaMessageContent = (
         image: WAMediaUpload
         caption?: string
         jpegThumbnail?: string
-    } & Mentionable & Contextable & Buttonable & Templatable & WithDimensions)
+    } & Mentionable & Contextable & Buttonable & Interactiveable & Templatable & WithDimensions)
     | ({
         video: WAMediaUpload
         caption?: string
@@ -131,7 +138,7 @@ export type AnyMediaMessageContent = (
         jpegThumbnail?: string
         /** if set to true, will send as a `video note` */
         ptv?: boolean
-    } & Mentionable & Contextable & Buttonable & Templatable  & WithDimensions)
+    } & Mentionable & Contextable & Buttonable & Interactiveable & Templatable  & WithDimensions)
     | {
         audio: WAMediaUpload
         /** if set to true, will send as a `voice note` */
@@ -148,7 +155,7 @@ export type AnyMediaMessageContent = (
         mimetype: string
         fileName?: string
         caption?: string
-    } & Contextable & Buttonable & Templatable))
+    } & Contextable & Buttonable & Interactiveable & Templatable))
     & { mimetype?: string } & Editable
 
 export type ButtonReplyInfo = {
@@ -211,11 +218,11 @@ export type AnyRegularMessageContent = (
 	    text: string
         linkPreview?: WAUrlInfo | null
     }
-    & Mentionable & Contextable & Buttonable & Templatable & Listable & Editable)
+    & Mentionable & Contextable & Buttonable & Interactiveable & Templatable & Listable & Editable)
     | AnyMediaMessageContent
     | ({
         poll: PollMessageOptions
-    } & Mentionable & Contextable & Buttonable & Templatable  & Editable)
+    } & Mentionable & Contextable & Buttonable & Interactiveable & Templatable  & Editable)
     | {
         contacts: {
             displayName?: string
