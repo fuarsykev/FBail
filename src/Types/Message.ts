@@ -94,8 +94,6 @@ type Interactiveable = {
     image?: WAGenericMediaMessage;
     video?: WAGenericMediaMessage;
     document?: WAGenericMediaMessage;
-    location?: WALocationMessage;
-    product?: WASendableProduct;
 }
 
 type Editable = {
