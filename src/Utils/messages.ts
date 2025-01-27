@@ -577,11 +577,13 @@ export const generateWAMessageContent = async(
 	           text: message.text
 	       }
 	   } else {
+	   
 	      if('caption' in message) {
 	          body: interactiveMessage.body = {
 	              text: message.caption
 	          }
 	      }
+
 	   }
 	   
 	   if('footer' in message && !!message.footer) {
@@ -595,6 +597,9 @@ export const generateWAMessageContent = async(
 	          title: message.title,
 	          ...message,
 	       }
+	      
+	      Object.assign(interactiveMessage, m)
+
 	   }
 	   
 	   m = { interactiveMessage }
