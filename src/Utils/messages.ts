@@ -554,7 +554,24 @@ export const generateWAMessageContent = async(
     }
 	
 	if('interactiveButtons' in message && !!message.interactiveButtons) {
-	   const mediaType = Object.keys(m)[0].replace('Message', '').toLowerCase()
+	   const image = message?.header?.image 
+	      ? await prepareWAMessageMedia(
+			{ image: message.header.image, ...options },
+			options
+		  ) 
+		  : null
+       const video = message?.header?.video 
+	      ? await prepareWAMessageMedia(
+			{ image: message.header.video, ...options },
+			options
+		  ) 
+		  : null       
+      const doc = message?.header?.document
+          ? await prepareWAMessageMedia(
+             { document: message.header.document, ...options },
+             options
+          )
+          : null;
 	   const interactiveMessage: proto.Message.IInteractiveMessage = {
 	      nativeFlowMessage: WAProto.Message.InteractiveMessage.NativeFlowMessage.fromObject({ 
 	         buttons: message.interactiveButtons,
@@ -585,11 +602,19 @@ export const generateWAMessageContent = async(
 	       header: interactiveMessage.header = {
 	          title: message.title,
 	          ...message,
-	          ...(await prepareWAMessageMedia(
-			    { [mediaType]: message[mediaType], ...options },
-			    options
-	            )
-	          )
+	          imageMessage: image ? image.imageMessage : null,
+	          documentMessage: doc ? doc.documentMessage : null,
+	          videoMessage: video ? video.videoMessage : null,
+	          locationMessage: message?.header?.location ?? null,
+	          productMesage: message.product ? 
+	              WAProto.Message.ProductMessage.fromObject({
+			         ...message,
+			         product: {
+			    	    ...message.product,
+				        productImage: image.imageMessage,
+			         }
+		          }
+		      ) : null,
 	       }
 	   }
 	   
