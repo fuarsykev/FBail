@@ -603,9 +603,6 @@ export const generateWAMessageContent = async(
 			    options
 		      ))
 	       }
-	      
-	      Object.assign(interactiveMessage, m)
-
 	   }
 	   
 	   m = { interactiveMessage }
