@@ -86,8 +86,6 @@ type Templatable = {
 type Interactiveable = {
     /** add buttons to the message  */
     interactiveButtons?: proto.Message.InteractiveMessage.NativeFlowMessage.NativeFlowButton[]
-    
-    header?: { [_: string]: string };
 }
 
 type Editable = {
@@ -130,7 +128,7 @@ export type AnyMediaMessageContent = (
         image: WAMediaUpload
         caption?: string
         jpegThumbnail?: string
-    } & Mentionable & Contextable & Buttonable & Interactiveable & Templatable & WithDimensions)
+    } & Mentionable & Contextable & Buttonable & Interactiveable & Templatable & Interactiveable & WithDimensions)
     | ({
         video: WAMediaUpload
         caption?: string
@@ -138,7 +136,7 @@ export type AnyMediaMessageContent = (
         jpegThumbnail?: string
         /** if set to true, will send as a `video note` */
         ptv?: boolean
-    } & Mentionable & Contextable & Buttonable & Interactiveable & Templatable  & WithDimensions)
+    } & Mentionable & Contextable & Buttonable & Interactiveable & Templatable & Interactiveable & WithDimensions)
     | {
         audio: WAMediaUpload
         /** if set to true, will send as a `voice note` */
@@ -263,7 +261,7 @@ export type AnyRegularMessageContent = (
         businessOwnerJid?: string
         body?: string
         footer?: string
-    } & Mentionable & Contextable & WithDimensions) 
+    } & Mentionable & Contextable & Interactiveable & WithDimensions) 
     | SharePhoneNumber | RequestPhoneNumber
 ) & ViewOnce
 
