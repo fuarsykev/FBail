@@ -88,6 +88,14 @@ type Interactiveable = {
     interactiveButtons?: proto.Message.InteractiveMessage.NativeFlowMessage.NativeFlowButton[]
     
     title?: string;
+    
+    subtitle?: string;
+    
+    image?: WAGenericMediaMessage;
+    video?: WAGenericMediaMessage;
+    document?: WAGenericMediaMessage;
+    location?: WALocationMessage;
+    product?: WASendableProduct;
 }
 
 type Editable = {
