@@ -75,12 +75,21 @@ type Buttonable = {
     /** add buttons to the message  */
     buttons?: proto.Message.ButtonsMessage.IButton[]
 }
+
 type Templatable = {
     /** add buttons to the message (conflicts with normal buttons)*/
     templateButtons?: proto.IHydratedTemplateButton[]
 
     footer?: string
 }
+
+type Interactiveable = {
+    /** add buttons to the message  */
+    interactiveButtons?: proto.Message.InteractiveMessage.NativeFlowMessage.NativeFlowButton[]
+    
+    media?: boolean;
+}
+
 type Editable = {
   edit?: WAMessageKey
 }
@@ -121,7 +130,7 @@ export type AnyMediaMessageContent = (
         image: WAMediaUpload
         caption?: string
         jpegThumbnail?: string
-    } & Mentionable & Contextable & Buttonable & Templatable & WithDimensions)
+    } & Mentionable & Contextable & Buttonable & Templatable & Interactiveable & WithDimensions)
     | ({
         video: WAMediaUpload
         caption?: string
@@ -129,7 +138,7 @@ export type AnyMediaMessageContent = (
         jpegThumbnail?: string
         /** if set to true, will send as a `video note` */
         ptv?: boolean
-    } & Mentionable & Contextable & Buttonable & Templatable & WithDimensions)
+    } & Mentionable & Contextable & Buttonable & Templatable & Interactiveable & WithDimensions)
     | {
         audio: WAMediaUpload
         /** if set to true, will send as a `voice note` */
@@ -146,7 +155,7 @@ export type AnyMediaMessageContent = (
         mimetype: string
         fileName?: string
         caption?: string
-    } & Contextable & Buttonable & Templatable))
+    } & Contextable & Buttonable & Templatable & Interactiveable))
     & { mimetype?: string } & Editable
 
 export type ButtonReplyInfo = {
@@ -254,7 +263,7 @@ export type AnyRegularMessageContent = (
         businessOwnerJid?: string
         body?: string
         footer?: string
-    } & Mentionable & Contextable & WithDimensions) 
+    } & Mentionable & Contextable & Interactiveable & WithDimensions) 
     | SharePhoneNumber | RequestPhoneNumber
 ) & ViewOnce
 
