@@ -88,6 +88,8 @@ type Interactiveable = {
     interactiveButtons?: proto.Message.InteractiveMessage.NativeFlowMessage.NativeFlowButton[]
     
     media?: boolean;
+    
+    title?: string;
 }
 
 type Editable = {
@@ -218,7 +220,7 @@ export type AnyRegularMessageContent = (
 	    text: string
         linkPreview?: WAUrlInfo | null
     }
-    & Mentionable & Contextable & Buttonable & Templatable & Listable & Editable)
+    & Mentionable & Contextable & Buttonable & Templatable & Interactiveable & Listable & Editable)
     | AnyMediaMessageContent
     | ({
         poll: PollMessageOptions
