@@ -87,8 +87,6 @@ type Interactiveable = {
     /** add buttons to the message  */
     interactiveButtons?: proto.Message.InteractiveMessage.NativeFlowMessage.NativeFlowButton[]
     
-    media?: boolean;
-    
     title?: string;
 }
 
@@ -224,7 +222,7 @@ export type AnyRegularMessageContent = (
     | AnyMediaMessageContent
     | ({
         poll: PollMessageOptions
-    } & Mentionable & Contextable & Buttonable & Templatable & Editable)
+    } & Mentionable & Contextable & Buttonable & Templatable & Interactiveable & Editable)
     | {
         contacts: {
             displayName?: string
