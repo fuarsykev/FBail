@@ -588,8 +588,6 @@ export const generateWAMessageContent = async(
 	              text: message.caption
 	          }
 	      }
-	      
-	      Object.assign(interactiveMessage, m)
 	   }
 	   
 	   if('footer' in message && !!message.footer) {
@@ -606,7 +604,7 @@ export const generateWAMessageContent = async(
 	          documentMessage: doc ? doc.documentMessage : null,
 	          videoMessage: video ? video.videoMessage : null,
 	          locationMessage: message?.header?.location ?? null,
-	          productMesage: message.product ? 
+	          productMesage: message?.header?.product ? 
 	              WAProto.Message.ProductMessage.fromObject({
 			         ...message,
 			         product: {
