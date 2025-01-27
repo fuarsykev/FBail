@@ -83,18 +83,6 @@ type Templatable = {
     footer?: string
 }
 
-type Interactiveable = {
-    /** add buttons to the message  */
-    interactiveButtons?: proto.Message.InteractiveMessage.NativeFlowMessage.NativeFlowButton[]
-    
-    title?: string;
-    
-    subtitle?: string;
-    
-    image?: WAGenericMediaMessage;
-    video?: WAGenericMediaMessage;
-    document?: WAGenericMediaMessage;
-}
 
 type Editable = {
   edit?: WAMessageKey
@@ -161,7 +149,7 @@ export type AnyMediaMessageContent = (
         mimetype: string
         fileName?: string
         caption?: string
-    } & Contextable & Buttonable & Templatable & Interactiveable))
+    } & Contextable & Buttonable & Templatable))
     & { mimetype?: string } & Editable
 
 export type ButtonReplyInfo = {
@@ -224,7 +212,7 @@ export type AnyRegularMessageContent = (
 	    text: string
         linkPreview?: WAUrlInfo | null
     }
-    & Mentionable & Contextable & Buttonable & Templatable & Interactiveable & Listable & Editable)
+    & Mentionable & Contextable & Buttonable & Templatable & Listable & Editable)
     | AnyMediaMessageContent
     | ({
         poll: PollMessageOptions
@@ -269,7 +257,7 @@ export type AnyRegularMessageContent = (
         businessOwnerJid?: string
         body?: string
         footer?: string
-    } & Mentionable & Contextable & Interactiveable & WithDimensions) 
+    } & Mentionable & Contextable & WithDimensions) 
     | SharePhoneNumber | RequestPhoneNumber
 ) & ViewOnce
 
