@@ -583,6 +583,7 @@ export const generateWAMessageContent = async(
 	   if('title' in message && !!message.title) {
 	       header: interactiveMessage.header = {
 	          title: message.title,
+	          ...message,
 	       }
 	   }
 	   
